@@ -1,0 +1,7 @@
+﻿services:
+  nots:
+    image: nots
+    build:
+      context: .
+      dockerfile: Nots/Dockerfile
+

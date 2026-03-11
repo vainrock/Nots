@@ -1,10 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "rUOiBAFLZgs=",
+  "dgSpecHash": "l8v+NCHmDAU=",
   "success": true,
   "projectFilePath": "C:\\Users\\vinokurov_ns\\RiderProjects\\Nots\\Nots\\Nots.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vinokurov_ns\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.2\\microsoft.aspnetcore.openapi.10.0.2.nupkg.sha512",
+    "C:\\Users\\vinokurov_ns\\.nuget\\packages\\microsoft.entityframeworkcore\\10.0.3\\microsoft.entityframeworkcore.10.0.3.nupkg.sha512",
+    "C:\\Users\\vinokurov_ns\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\10.0.3\\microsoft.entityframeworkcore.abstractions.10.0.3.nupkg.sha512",
+    "C:\\Users\\vinokurov_ns\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\10.0.3\\microsoft.entityframeworkcore.analyzers.10.0.3.nupkg.sha512",
+    "C:\\Users\\vinokurov_ns\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\10.0.3\\microsoft.entityframeworkcore.inmemory.10.0.3.nupkg.sha512",
     "C:\\Users\\vinokurov_ns\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512"
   ],
   "logs": []

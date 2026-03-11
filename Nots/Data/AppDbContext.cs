@@ -1,6 +1,13 @@
-﻿namespace Nots.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Nots.Models;
+namespace Nots.Data;
 
-public class AppDbContext
+
+public class AppDbContext : DbContext
 {
-    
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    {
+        
+    }
+    public DbSet<Note> Notes { get; set; }
 }

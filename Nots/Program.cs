@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Nots.Data;
 using Nots.Models;
+using QuestPDF.Infrastructure;
+QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddCors(options => 
     options.AddPolicy("AllowAngular", policy =>
     {
-        policy.WithOrigins("http://localhost:4200")
+        policy.AllowAnyOrigin()  // <-- Заменили WithOrigins на AllowAnyOrigin
             .AllowAnyHeader()
             .AllowAnyMethod();
     }));

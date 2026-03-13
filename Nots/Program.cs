@@ -10,7 +10,17 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("NoteDB"));
 
+builder.Services.AddCors(options => 
+    options.AddPolicy("AllowAngular", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200");
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+    }));
+
 var app = builder.Build();
+
+app.UseCors("AllowAngular");
 
 app.MapControllers();
 

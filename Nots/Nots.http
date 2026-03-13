@@ -1,6 +1,8 @@
-@Nots_HostAddress = http://localhost:5275
+POST http://localhost:5275/api/notes
+Content-Type: application/json
 
-GET {{Nots_HostAddress}}/weatherforecast/
-Accept: application/json
-
+{
+  "name": "My First Note",
+  "content": "Bro, I actually built this API from scratch!"
+}
 ###

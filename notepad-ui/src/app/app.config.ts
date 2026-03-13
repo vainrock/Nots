@@ -1,8 +1,12 @@
 import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withViewTransitions } from '@angular/router'; // <-- ADDED THIS
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http'; // <-- ADD THIS
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideHttpClient()] // <-- ADD IT HERE
+  providers: [
+    // <-- TURN ON THE MAGIC ENGINE HERE
+    provideRouter(routes, withViewTransitions()),
+    provideHttpClient()
+  ]
 };

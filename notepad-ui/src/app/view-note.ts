@@ -28,7 +28,8 @@ import { marked } from 'marked'; // <-- The Markdown Engine
   template: `
     <div *ngIf="note" class="bg-gray-900 p-8 rounded-xl border border-violet-500/30 max-w-2xl mx-auto mt-6 shadow-[0_0_30px_rgba(139,92,246,0.15)] relative overflow-hidden">
       <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMTM5LCA5MiwgMjQ2LCAwLjEpIi8+PC9zdmc+')] opacity-50 pointer-events-none"></div>
-
+      <div *ngIf="note"
+           [style.view-transition-name]="'note-card-' + note.id" class="bg-gray-900 p-8 rounded-xl border border-violet-500/30 max-w-2xl mx-auto mt-6 ...">
       <div class="relative z-10">
         <div class="flex justify-between items-start mb-8">
           <h2 class="text-2xl font-black uppercase tracking-widest text-violet-400 flex items-center gap-3">

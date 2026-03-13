@@ -67,7 +67,7 @@ public class NotesController : ControllerBase
         await _context.SaveChangesAsync();
         return Ok(existingNote);
     }
-    [HttpGet("{id}/export/pdf")]
+[HttpGet("{id}/export/pdf")]
     public async Task<IActionResult> ExportPdf(int id)
     {
         var note = await _context.Notes.FindAsync(id);
@@ -81,9 +81,10 @@ public class NotesController : ControllerBase
                 page.Margin(2, Unit.Centimetre);
                 page.PageColor(Colors.White);
                 
-                page.DefaultTextStyle(x => x.FontSize(12).Weight(QuestPDF.Infrastructure.FontWeight.Normal));
+                // FIXED: Swapped to Times New Roman
+                page.DefaultTextStyle(x => x.FontFamily(Fonts.TimesNewRoman).FontSize(14).Weight(QuestPDF.Infrastructure.FontWeight.Normal));
 
-                page.Header().Text(note.Title).SemiBold().FontSize(24).FontColor(Colors.Black);
+                page.Header().Text(note.Title).FontFamily(Fonts.TimesNewRoman).SemiBold().FontSize(24).FontColor(Colors.Black);
                 
                 page.Content().PaddingVertical(1, Unit.Centimetre).Markdown(note.Content);
                 
@@ -99,6 +100,39 @@ public class NotesController : ControllerBase
         return File(pdfBytes, "application/pdf", $"{note.Title}.pdf");
     }
 
+    [HttpGet("{id}/export/doc")]
+    public async Task<IActionResult> ExportWord(int id)
+    {
+        var note = await _context.Notes.FindAsync(id);
+        if (note == null) return NotFound();
+
+        var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+        var parsedHtml = Markdown.ToHtml(note.Content, pipeline);
+
+        // FIXED: Swapped the CSS body font to Times New Roman
+        var htmlContent = $@"
+            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+            <head>
+                <meta charset='utf-8'>
+                <title>{note.Title}</title>
+                <style>
+                    body {{ font-family: 'Times New Roman', serif; }}
+                    p, span, div, li {{ font-weight: normal !important; font-size: 14pt; color: #000000; margin-bottom: 10pt; }}
+                    h1, h2, h3 {{ font-weight: bold !important; color: #000000; }}
+                    h1 {{ font-size: 24pt; margin-bottom: 15pt; }}
+                </style>
+            </head>
+            <body>
+                <h1>{note.Title}</h1>
+                <hr/>
+                {parsedHtml}
+            </body>
+            </html>";
+            
+        var bytes = Encoding.UTF8.GetBytes(htmlContent);
+        return File(bytes, "application/msword", $"{note.Title}.doc");
+    }
+
     [HttpGet("{id}/export/md")]
     public async Task<IActionResult> ExportMarkdown(int id)
     {
@@ -109,29 +143,5 @@ public class NotesController : ControllerBase
         var bytes = Encoding.UTF8.GetBytes(mdContent);
         
         return File(bytes, "text/markdown", $"{note.Title}.md");
-    }
-
-    [HttpGet("{id}/export/doc")]
-    public async Task<IActionResult> ExportWord(int id)
-    {
-        var note = await _context.Notes.FindAsync(id);
-        if (note == null) return NotFound();
-
-        var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
-        var parsedHtml = Markdown.ToHtml(note.Content, pipeline);
-
-        // FIXED: Added 'font-weight: normal;' to the body style to stop Word from bleeding bold text
-        var htmlContent = $@"
-            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-            <head><meta charset='utf-8'><title>{note.Title}</title></head>
-            <body style='font-family: Arial, sans-serif; font-weight: normal; font-size: 12pt;'>
-                <h1 style='color: #000000;'>{note.Title}</h1>
-                <hr/>
-                {parsedHtml}
-            </body>
-            </html>";
-            
-        var bytes = Encoding.UTF8.GetBytes(htmlContent);
-        return File(bytes, "application/msword", $"{note.Title}.doc");
     }
 }

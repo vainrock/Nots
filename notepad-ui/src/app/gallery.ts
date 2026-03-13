@@ -13,33 +13,50 @@ import { NoteService, Note } from './services/note';
         Stored_Memories
       </h2>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
       <div *ngFor="let note of notes"
            [routerLink]="['/note', note.id]"
-           class="bg-gray-900 border border-violet-500/30 p-6 rounded-xl relative group transition-all duration-300 hover:border-pink-500/60 shadow-[0_0_15px_rgba(139,92,246,0.1)] hover:shadow-[0_0_25px_rgba(236,72,153,0.25)] hover:-translate-y-1 overflow-hidden cursor-pointer flex flex-col min-h-[160px]">
-           [style.view-transition-name]="'note-card-' + note.id" class="bg-gray-900 border border-violet-500/30 p-6 rounded-xl relative group transition-all ...">
+           [style.view-transition-name]="'note-card-' + note.id"
+           class="group h-72 cursor-pointer [perspective:1000px]">
 
-        <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-violet-500 to-transparent opacity-50 group-hover:via-pink-500 transition-all"></div>
+        <div class="relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] shadow-[0_0_15px_rgba(139,92,246,0.1)] group-hover:shadow-[0_0_25px_rgba(236,72,153,0.3)] rounded-xl">
 
-        <button (click)="$event.stopPropagation(); deleteNote(note.id)" class="absolute top-4 right-4 text-gray-600 opacity-0 group-hover:opacity-100 transition-all hover:text-pink-500 hover:shadow-[0_0_10px_rgba(236,72,153,0.5)] z-20">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-          </svg>
-        </button>
+          <div class="absolute inset-0 bg-gray-900 border border-violet-500/30 rounded-xl p-6 flex flex-col items-center justify-center [backface-visibility:hidden] overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-violet-500 to-transparent opacity-50"></div>
 
-        <h3 class="text-xl font-bold text-gray-100 mb-3 pr-8 tracking-wide">{{ note.title }}</h3>
-        <p class="text-gray-400 whitespace-pre-wrap leading-relaxed font-mono text-sm line-clamp-4 flex-grow">{{ note.content }}</p>
+            <div class="w-20 h-20 border border-violet-500/50 rounded-full flex flex-col items-center justify-center mb-6 shadow-[inset_0_0_20px_rgba(139,92,246,0.2)]">
+              <span class="text-violet-400 font-mono text-xs tracking-widest uppercase opacity-70">Sector</span>
+              <span class="text-violet-300 font-black text-xl font-mono">{{ note.id }}</span>
+            </div>
 
-        <div class="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all z-20 translate-y-2 group-hover:translate-y-0">
-          <button (click)="$event.stopPropagation(); exportMarkdown(note.id!)" title="Export as Markdown" class="text-[10px] font-bold font-mono bg-gray-800 hover:bg-gray-700 text-gray-300 py-1.5 px-2.5 rounded border border-gray-600 transition-colors uppercase shadow-[0_0_10px_rgba(0,0,0,0.5)]">.MD</button>
-          <button (click)="$event.stopPropagation(); exportWord(note.id!)" title="Export as Word" class="text-[10px] font-bold font-mono bg-blue-900/40 hover:bg-blue-800/60 text-blue-400 py-1.5 px-2.5 rounded border border-blue-700/50 transition-colors uppercase shadow-[0_0_10px_rgba(0,0,0,0.5)]">.DOC</button>
-          <button (click)="$event.stopPropagation(); exportPDF(note.id!)" title="Export as PDF" class="text-[10px] font-bold font-mono bg-red-900/40 hover:bg-red-800/60 text-red-400 py-1.5 px-2.5 rounded border border-red-700/50 transition-colors uppercase shadow-[0_0_10px_rgba(0,0,0,0.5)]">.PDF</button>
+            <h3 class="font-mono text-gray-500 text-sm tracking-[0.3em] uppercase text-center border-b border-gray-800 pb-2">Encrypted_Data</h3>
+            <span class="mt-4 text-[10px] text-gray-600 font-mono tracking-widest animate-pulse">HOVER_TO_DECRYPT</span>
+          </div>
+
+          <div class="absolute inset-0 bg-gray-900 border border-pink-500/50 rounded-xl p-6 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col overflow-hidden">
+
+            <button (click)="$event.stopPropagation(); deleteNote(note.id)" class="absolute top-4 right-4 text-gray-500 hover:text-pink-500 hover:shadow-[0_0_10px_rgba(236,72,153,0.5)] z-20 transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+
+            <h3 class="text-lg font-bold text-gray-100 mb-2 pr-6 tracking-wide truncate border-b border-gray-800 pb-2">{{ note.title }}</h3>
+            <p class="text-gray-400 whitespace-pre-wrap leading-relaxed font-mono text-xs line-clamp-6 flex-grow pt-2">{{ note.content }}</p>
+
+            <div class="absolute bottom-4 right-4 flex gap-2 z-20">
+              <button (click)="$event.stopPropagation(); exportMarkdown(note.id!)" class="text-[9px] font-bold font-mono bg-gray-800 hover:bg-gray-700 text-gray-300 py-1.5 px-2 rounded border border-gray-600 transition-colors uppercase">.MD</button>
+              <button (click)="$event.stopPropagation(); exportWord(note.id!)" class="text-[9px] font-bold font-mono bg-blue-900/40 hover:bg-blue-800/60 text-blue-400 py-1.5 px-2 rounded border border-blue-700/50 transition-colors uppercase">.DOC</button>
+              <button (click)="$event.stopPropagation(); exportPDF(note.id!)" class="text-[9px] font-bold font-mono bg-red-900/40 hover:bg-red-800/60 text-red-400 py-1.5 px-2 rounded border border-red-700/50 transition-colors uppercase">.PDF</button>
+            </div>
+          </div>
+
         </div>
-
       </div>
 
-      <div *ngIf="notes.length === 0" class="col-span-2 text-center py-16 font-mono text-violet-400 bg-gray-900/50 rounded-xl border border-dashed border-violet-500/30 shadow-[inset_0_0_20px_rgba(139,92,246,0.05)]">
+      <div *ngIf="notes.length === 0" class="col-span-1 md:col-span-2 lg:col-span-3 text-center py-16 font-mono text-violet-400 bg-gray-900/50 rounded-xl border border-dashed border-violet-500/30 shadow-[inset_0_0_20px_rgba(139,92,246,0.05)]">
         > DATABASE_EMPTY. Initialize a new sequence via [Inject_Note].
       </div>
     </div>

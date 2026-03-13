@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 export interface Note {
   id?: number;
-  name: string;
+  title: string;  // <-- Changed from 'name' to match C# 'Title'
   content: string;
   created?: string;
 }
@@ -13,7 +13,8 @@ export interface Note {
   providedIn: 'root'
 })
 export class NoteService {
-  private apiUrl = 'http://localhost:5000/api/notes'; // Ensure port matches .NET!
+  // <-- Updated port to 5275!
+  private apiUrl = 'http://localhost:5275/api/notes';
 
   constructor(private http: HttpClient) { }
 

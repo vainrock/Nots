@@ -13,6 +13,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseSqlite("Data Source=neural_notes.db")); 
 
+builder.Services.AddHttpClient<Nots.Services.DeepSeekService>();
+
 builder.Services.AddCors(options => 
     options.AddPolicy("AllowAngular", policy =>
     {
@@ -20,6 +22,7 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod();
     }));
+
 
 var app = builder.Build();
 

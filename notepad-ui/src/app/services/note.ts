@@ -79,4 +79,8 @@ export class NoteService {
   exportDoc(id: number): Observable<Blob> {
     return this.http.get(`${this.apiUrl}/${id}/export/doc`, { responseType: 'blob' });
   }
+  // --- NEURAL LINK (DEEPSEEK AI) ---
+  generateFromAi(keywords: string): Observable<{generatedContent: string}> {
+    return this.http.post<{generatedContent: string}>('http://localhost:5275/api/ai/generate', { keywords });
+  }
 }

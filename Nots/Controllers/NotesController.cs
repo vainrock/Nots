@@ -17,11 +17,12 @@ public class NotesController : ControllerBase
         _context = context;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetNotes()
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetNote(int id)
     {
-        var notes = await _context.Notes.ToListAsync();
-        return Ok(notes);
+        var note = await _context.Notes.FindAsync(id);
+        if (note == null) { return NotFound(); }
+        return Ok(note);
     }
 
     [HttpPost]

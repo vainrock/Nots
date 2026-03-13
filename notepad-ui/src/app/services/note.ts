@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 export interface Note {
   id?: number;
-  title: string;  // <-- Changed from 'name' to match C# 'Title'
+  title: string;
   content: string;
   created?: string;
 }
@@ -13,11 +13,14 @@ export interface Note {
   providedIn: 'root'
 })
 export class NoteService {
-  // <-- Updated port to 5275!
   private apiUrl = 'http://localhost:5275/api/notes';
 
   constructor(private http: HttpClient) { }
 
+  // <-- THIS WAS MISSING! (Gets all notes)
+  getNotes(): Observable<Note[]> { return this.http.get<Note[]>(this.apiUrl); }
+
+  // <-- The rest of your specific operations
   getNote(id: number): Observable<Note> { return this.http.get<Note>(`${this.apiUrl}/${id}`); }
   updateNote(id: number, note: Note): Observable<Note> { return this.http.put<Note>(`${this.apiUrl}/${id}`, note); }
   createNote(note: Note): Observable<Note> { return this.http.post<Note>(this.apiUrl, note); }

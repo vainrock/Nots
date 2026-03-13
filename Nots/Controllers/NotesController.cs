@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Nots.Controllers;
 
-
 [ApiController]
 [Route("api/[controller]")]
-
 public class NotesController : ControllerBase
 {
     private readonly AppDbContext _context;
@@ -17,6 +15,15 @@ public class NotesController : ControllerBase
         _context = context;
     }
 
+    // <-- THIS WAS MISSING! (Gets ALL notes for the Gallery)
+    [HttpGet]
+    public async Task<IActionResult> GetNotes()
+    {
+        var notes = await _context.Notes.ToListAsync();
+        return Ok(notes);
+    }
+
+    // <-- Your new method! (Gets ONE note for the View page)
     [HttpGet("{id}")]
     public async Task<IActionResult> GetNote(int id)
     {

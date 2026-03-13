@@ -21,12 +21,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// <-- NEW: This forces C# to build the physical database file before starting
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    dbContext.Database.EnsureCreated();
-}
 
 app.UseCors("AllowAngular");
 app.MapControllers();
@@ -36,5 +30,4 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
 app.Run();

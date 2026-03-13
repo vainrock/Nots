@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NoteService, Note } from './services/note';
@@ -40,18 +40,32 @@ import { NoteService, Note } from './services/note';
 export class GalleryComponent implements OnInit {
   notes: Note[] = [];
 
-  constructor(private noteService: NoteService) {}
+  // Inject ChangeDetectorRef
+  constructor(private noteService: NoteService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() { this.loadNotes(); }
 
   loadNotes() {
-    this.noteService.getNotes().subscribe((data: Note[]) => this.notes = data);
+    this.noteService.getNotes().subscribe({
+      next: (data: Note[]) => {
+        this.notes = data;
+        // 1. Force Angular to instantly redraw the HTML with the new data
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        // 2. If the request fails, scream loudly instead of failing silently!
+        alert('API FETCH FAILED: ' + err.message);
+        console.error(err);
+      }
+    });
   }
 
   deleteNote(id: number | undefined) {
     if (!id) return;
     this.noteService.deleteNote(id).subscribe(() => {
       this.notes = this.notes.filter(n => n.id !== id);
+      this.cdr.detectChanges(); // Force redraw on delete too
     });
   }
 }
+
